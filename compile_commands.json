@@ -1,6 +1,6 @@
 [
  {
-  "directory": "/home/tomorinao/Desktop/oss_test",
+  "directory": "/home/tomorinao/Desktop/oss_test/oss_cli",
   "arguments": [
    "g++",
    "src/main/main.cpp",
@@ -31,7 +31,7 @@
   "file": "src/main/main.cpp"
  },
  {
-  "directory": "/home/tomorinao/Desktop/oss_test",
+  "directory": "/home/tomorinao/Desktop/oss_test/oss_cli",
   "arguments": [
    "g++",
    "src/config/Config.cpp",
@@ -62,7 +62,7 @@
   "file": "src/config/Config.cpp"
  },
  {
-  "directory": "/home/tomorinao/Desktop/oss_test",
+  "directory": "/home/tomorinao/Desktop/oss_test/oss_cli",
   "arguments": [
    "g++",
    "src/ossUpload/OssUpload.cpp",
