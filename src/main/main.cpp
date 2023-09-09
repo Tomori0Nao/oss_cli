@@ -1,58 +1,55 @@
-#include <string>
-#include <iostream>
-#include "Config.h"
+#include "config/Config.h"
 #include "sonic/sonic.h"
+#include "writebuffer.h"
+#include <bits/types/FILE.h>
+#include <fstream>
+#include <ios>
+#include <iostream>
+#include <ostream>
+#include <string>
 
 using member_itr_type = typename sonic_json::Document::MemberIterator;
 
 void print_member(member_itr_type m);
 void set_new_value(member_itr_type m);
 
-int main()
-{
-    std::string json = R"(
+int main() {
+  std::string config_file = "src/config/Config.json";
+
+  std::ofstream config(config_file);
+
+
+  std::string json = R"(
     {
-      "a": 1,
-      "b": 2
+      "Endpoint": 1,
+      "AccessKeyId": 2,
+      "AccessKeySecret":1234,
+      "BucketName":433124
     }
   )";
-    sonic_json::Document doc;
-    doc.Parse(json);
+  sonic_json::Document doc;
+  doc.Parse(json);
 
-    if (doc.HasParseError())
-    {
-        std::cout << "Parse failed!\n";
-        return -1;
-    }
+  sonic_json::WriteBuffer wb;
+  doc.Serialize(wb);
 
-    // Find member by key
-    if (!doc.IsObject())
-    { // Check JSON value type.
-        std::cout << "Incorrect doc type!\n";
-        return -1;
-    }
-    auto m = doc.FindMember("a");
-    if (m != doc.MemberEnd())
-    {
-        std::cout << "Before Setting new value:\n";
-        print_member(m);
-        std::cout << "After Setting value:\n";
-        set_new_value(m);
-        print_member(m);
-    }
-    else
-    {
-        std::cout << "Find key doesn't exist!\n";
-    }
-    std::cout << "first test" << std::endl;
-    return 0;
+  std::cout << wb.ToString() << std::endl;
+  config<< wb.ToString();
+  config.close();
+
+  if (doc.HasParseError()) {
+    std::cout << "Parse failed!\n";
+    return -1;
+  }
+
+  return 0;
 }
 
 using member_itr_type = typename sonic_json::Document::MemberIterator;
 
 void print_member(member_itr_type m) {
-  const sonic_json::Node& key = m->name;
-  sonic_json::Node& value = m->value;
+  const sonic_json::Node &key = m->name;
+  sonic_json::Node &value = m->value;
   if (key.IsString()) {
     std::cout << "Key is: " << key.GetString() << std::endl;
   } else {
@@ -67,7 +64,7 @@ void print_member(member_itr_type m) {
 }
 
 void set_new_value(member_itr_type m) {
-  sonic_json::Node& value = m->value;
+  sonic_json::Node &value = m->value;
   value.SetInt64(2);
   return;
 }
