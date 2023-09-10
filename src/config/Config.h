@@ -16,7 +16,7 @@ private:
 	std::string AccessKeySecret ;
 	std::string BucketName ;
    
-    static Config* instance;
+    static std::unique_ptr<Config> instance;
 
     Config(const std::string& Endpoint,const std::string& AccessKeyId, const std::string& AccessKeySecret,std::string BucketName);
 
@@ -33,7 +33,7 @@ private:
 public:
     // Config(/* args */);
     ~Config();
-    static Config* getInstance(void);
+    static std::unique_ptr<Config> getInstance(std::string Endpoint, std::string AccessKeyId, std::string AccessKeySecret, std::string BucketName);
 };
 #endif
 

@@ -1,3 +1,7 @@
+#include <memory>
+#include <string>
+#include <utility>
+#include <alibabacloud/oss/OssClient.h>
 #include "Config.h"
 #include "Result.h"
 #include <alibabacloud/oss/OssClient.h>
@@ -26,18 +30,15 @@ Config *Config::getInstance() {
   return instance;
 }
 
-Result Config::setEndpoint(std::string Endpoint) {
-  // change config in json file
-  // operate
-
-  if (1) {
-    /* code */
-
-    this->Endpoint = Endpoint;
-    return Result::success;
-  } else {
-    return Result::failure;
-  }
+std::unique_ptr<Config> Config::getInstance(std::string Endpoint, std::string AccessKeyId, std::string AccessKeySecret, std::string BucketName)
+{
+    if (instance == nullptr)
+    {
+        instance = std::make_unique<Config>(new Config(std::move(Endpoint),std::move(AccessKeyId),std::move(AccessKeySecret),std::move(BucketName)));
+        /* code */
+        // std::make_unique()
+    }
+    return instance;
 }
 
 Result Config::setAccessKeyId(std::string AccessKeyId) {
