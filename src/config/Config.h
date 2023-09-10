@@ -1,6 +1,7 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 #include <alibabacloud/oss/OssClient.h>
+#include <memory>
 #include "Result.h"
 using namespace AlibabaCloud;
 class Config
@@ -15,7 +16,7 @@ private:
 	std::string AccessKeySecret ;
 	std::string BucketName ;
    
-    static Config* instance;
+    static std::unique_ptr<Config> instance;
 
     Config(std::string Endpoint, std::string AccessKeyId, std::string AccessKeySecret, std::string BucketName);
 
@@ -32,7 +33,7 @@ private:
 public:
     // Config(/* args */);
     ~Config();
-    static Config* getInstance(void);
+    static std::unique_ptr<Config> getInstance(std::string Endpoint, std::string AccessKeyId, std::string AccessKeySecret, std::string BucketName);
 };
 #endif
 
